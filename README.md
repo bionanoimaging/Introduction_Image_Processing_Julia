@@ -1,10 +1,11 @@
-# Introduction_Image_Processing_Julia
-Material for 6th NORMIC Image Processing Workshop.
+# Introduction to Image Processing in Julia
+
+Material for the Julia Image Processing workshop at the 6th NORMIC Image Processing Workshop.
 
 
 ## Installation of Julia
 Go to the [official Website of Julia](https://julialang.org/) and download the latest release for your operating system.
-Once you have Julia installed and copied/cloned in your file system you can start a Julia REPL within this folder.
+Once you have Julia installed and copied/cloned this repository in your file system you can start a Julia REPL within this folder.
 This can look like the following:
 ```julia
 julia> cd("/home/myuser/Downloads/Introduction_Image_Processing_Julia/")
@@ -20,6 +21,8 @@ the examples provided here. To activate the environment and to start Pluto do:
 ```julia
 (@v1.6) pkg> activate .
   Activating environment at `/home/myuser/Downloads/Introduction_Image_Processing_Julia/Project.toml`
+
+julia> ENV["JULIA_COPY_STACKS"]=1     # because View5D.jl uses JavaCall which needs that on non-Windows
 
 julia> using Pluto
 

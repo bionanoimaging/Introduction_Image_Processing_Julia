@@ -100,9 +100,9 @@ version = "0.3.0"
 
 [[Compat]]
 deps = ["Base64", "Dates", "DelimitedFiles", "Distributed", "InteractiveUtils", "LibGit2", "Libdl", "LinearAlgebra", "Markdown", "Mmap", "Pkg", "Printf", "REPL", "Random", "SHA", "Serialization", "SharedArrays", "Sockets", "SparseArrays", "Statistics", "Test", "UUIDs", "Unicode"]
-git-tree-sha1 = "0a817fbe51c976de090aa8c997b7b719b786118d"
+git-tree-sha1 = "0900bc19193b8e672d9cd477e6cd92d9e7c02f99"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "3.28.0"
+version = "3.29.0"
 
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
@@ -169,9 +169,9 @@ uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
 
 [[DeconvOptim]]
 deps = ["ChainRulesCore", "FFTW", "Interpolations", "LineSearches", "LinearAlgebra", "Noise", "Optim", "Requires", "Statistics", "Tullio", "Zygote"]
-git-tree-sha1 = "63ab2b1b8dea74e224c8aecf0e007dcaa8cb78a9"
+git-tree-sha1 = "12db64cd173158d3e0012d4364cd485da1dd75f3"
 uuid = "03e7cd2f-1a03-4ea9-b59b-760a446df67f"
-version = "0.1.4"
+version = "0.1.5"
 
 [[DelimitedFiles]]
 deps = ["Mmap"]
@@ -246,9 +246,9 @@ version = "3.3.9+7"
 
 [[FileIO]]
 deps = ["Pkg", "Requires", "UUIDs"]
-git-tree-sha1 = "d74fd0dae131104471c849f25ba1179fe0fadf47"
+git-tree-sha1 = "cfb694feaddf4f0381ef3cc9d4c0d8fc6b7e2ea7"
 uuid = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
-version = "1.8.2"
+version = "1.9.0"
 
 [[FileWatching]]
 uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
@@ -636,9 +636,9 @@ uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
 
 [[Noise]]
 deps = ["ImageCore", "PoissonRandom", "Random"]
-git-tree-sha1 = "42224fd87de5c50a593bbf1bce16c67b1d65da88"
+git-tree-sha1 = "9d1cc8018a430703bda984cea4785ce5b07b69fb"
 uuid = "81d43f40-5267-43b7-ae1c-8b967f377efa"
-version = "0.2.2"
+version = "0.3.0"
 
 [[OMETIFF]]
 deps = ["AxisArrays", "DataStructures", "DocStringExtensions", "EzXML", "FileIO", "ImageCore", "ImageMetadata", "JSON", "Unitful"]
