@@ -5,7 +5,7 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ 943cd3a0-b9a7-11eb-0852-fb73c86a7ebe
-using CUDA, Zygote, Optim, Napari, TestImages, LinearAlgebra, FFTW, Noise, LineSearches, Tullio, Statistics, DeconvOptim
+using CUDA, Zygote, Optim, Napari, TestImages, LinearAlgebra, FFTW, Noise, LineSearches, Tullio, Statistics, DeconvOptim, FourierTools
 
 # ╔═╡ fd0311fb-ea86-4e07-b3f9-0038fb539cc8
 begin
@@ -27,7 +27,9 @@ end
 # ╔═╡ 5a242207-d570-43c7-bfef-20dc02b5a9ea
 begin
 	img = Float32.(testimage("simple"))
+	img = abs.(resample(img, (256, 256, 256)))
 	psf = permutedims(ifftshift(Float32.(testimage("simple_3d_psf").parent)), (3, 1, 2))
+	psf = abs.(resample(psf, (256, 256, 256)))
 	psf ./= sum(psf)
 end;
 
@@ -55,7 +57,6 @@ end
 # ╔═╡ a4a8e9e9-d68e-43f2-b575-f6b30861753b
 begin
 	forward = create_forward(psf)
-	forward_cuda = create_forward(CuArray(psf))
 	measurement = poisson(forward(img), 50)
 	measurement_cuda = CuArray(measurement)
 end;
