@@ -12,18 +12,26 @@ md"## Julia Lang
 * Core paradigm is *Multiple Dispatch*
 * Performance comparable to C/C++
 * *for loops* don't have a performance penalty
+
+### Reason for Speed
+* JIT - Just in Time compilation
+* Because of the type system Julia can compile efficient code
+
+
+### Helpfuls resources
 * However, certain differences to other languages
 * Consult [performance tips](https://docs.julialang.org/en/v1/manual/performance-tips/)
 * [Noteworthy differences to other language](https://docs.julialang.org/en/v1/manual/noteworthy-differences/)
 * Ecosystem for image processing for microscopy data is small
 
-Some important packages are:
+### Some important packages
 * [Bioformatsloader.jl](https://github.com/ahnlabb/BioformatsLoader.jl)
 * [View5D.jl](https://github.com/RainerHeintzmann/View5D.jl)
 * [DeconvOptim.jl](https://github.com/roflmaostc/DeconvOptim.jl)
 * [Images.jl](https://github.com/JuliaImages/Images.jl/)
 * [Napari.jl](https://github.com/mkitti/Napari.jl)
 * [FourierTools.jl](https://github.com/bionanoimaging/FourierTools.jl)
+* [TestImages.jl](https://github.com/JuliaImages/TestImages.jl)
 "
 
 # ╔═╡ d78a922c-efa2-4935-881a-b5dccaa09caa
