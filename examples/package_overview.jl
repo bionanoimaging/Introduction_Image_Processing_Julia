@@ -10,6 +10,12 @@ begin
 	Pkg.add(url="https://github.com/ahnlabb/BioformatsLoader.jl")
 end
 
+# ╔═╡ 77515a38-b65b-11eb-388d-bb59872c6ca1
+using Revise, TestImages, Noise, View5D, Napari, ImageShow, Images
+
+# ╔═╡ 76b435db-84e8-4d8c-9eb4-bf1bb8c18d31
+using BioformatsLoader
+
 # ╔═╡ 930855c0-2439-4889-a399-85b23e780b5e
 BioformatsLoader.init()
 
@@ -68,12 +74,6 @@ data = BioformatsLoader.bf_import_url("https://samples.fiji.sc/150707_WTstack.ls
 
 # ╔═╡ 1ab43110-151b-42cf-a9c6-6fd0149de564
 view5d(data)
-
-# ╔═╡ 76b435db-84e8-4d8c-9eb4-bf1bb8c18d31
-using BioformatsLoader
-
-# ╔═╡ 77515a38-b65b-11eb-388d-bb59872c6ca1
-using Revise, TestImages, Noise, View5D, Napari, ImageShow, Images, BioformatsLoader
 
 # ╔═╡ Cell order:
 # ╠═76b435db-84e8-4d8c-9eb4-bf1bb8c18d31
