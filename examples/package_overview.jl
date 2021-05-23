@@ -4,13 +4,19 @@
 using Markdown
 using InteractiveUtils
 
-# ╔═╡ 77515a38-b65b-11eb-388d-bb59872c6ca1
-using Revise, TestImages, Noise, View5D, Napari, ImageShow, Images
-
-# ╔═╡ 76b435db-84e8-4d8c-9eb4-bf1bb8c18d31
-using BioformatsLoader
-
 # ╔═╡ 930855c0-2439-4889-a399-85b23e780b5e
+using Revise, TestImages, Noise, Napari, ImageShow, Images
+
+# ╔═╡ b88ba8d6-33c8-4d5b-a673-7030fc768596
+using JavaCall, BioformatsLoader, View5D
+
+# ╔═╡ ecbe0fe3-33b5-4529-b00d-76bf28b66eb4
+JavaCall.addClassPath(BioformatsLoader.get_bf_path())
+
+# ╔═╡ a41f9c9d-7a84-4dd4-9b46-62271f4318cb
+JavaCall.addOpts("-Xmx2048M"); # Set maximum memory to 2 Gigabyte
+
+# ╔═╡ 77515a38-b65b-11eb-388d-bb59872c6ca1
 BioformatsLoader.init()
 
 # ╔═╡ d8ae01cd-7205-4155-80d4-922de74a0464
@@ -20,7 +26,7 @@ img = testimage("resolution_test_512")
 arr = Float32.(img)
 
 # ╔═╡ d5e27923-fd85-4354-9778-6d14f830bb46
-img_color = testimage("mandurill")
+img_color = testimage("mandrill")
 
 # ╔═╡ 46c327dd-c649-466f-b246-bca44050316d
 testimage("mandril_color")
@@ -41,7 +47,7 @@ typeof(img_color)
 md"# Different Image Viewer"
 
 # ╔═╡ 997308fd-6609-4677-9303-f7d1cea83f17
-view5d(arr_color)
+@vt arr_color
 
 # ╔═╡ 89800d5e-c1ba-4d42-83f5-76b7d1561bee
 begin
@@ -64,7 +70,9 @@ data = BioformatsLoader.bf_import_url("https://samples.fiji.sc/150707_WTstack.ls
 view5d(data)
 
 # ╔═╡ Cell order:
-# ╠═76b435db-84e8-4d8c-9eb4-bf1bb8c18d31
+# ╠═b88ba8d6-33c8-4d5b-a673-7030fc768596
+# ╠═ecbe0fe3-33b5-4529-b00d-76bf28b66eb4
+# ╠═a41f9c9d-7a84-4dd4-9b46-62271f4318cb
 # ╠═930855c0-2439-4889-a399-85b23e780b5e
 # ╠═77515a38-b65b-11eb-388d-bb59872c6ca1
 # ╠═d8ae01cd-7205-4155-80d4-922de74a0464
