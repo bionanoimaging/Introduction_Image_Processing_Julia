@@ -4,6 +4,18 @@
 using Markdown
 using InteractiveUtils
 
+# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
+macro bind(def, element)
+    quote
+        local el = $(esc(element))
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : missing
+        el
+    end
+end
+
+# ╔═╡ 839c36b1-1318-4892-84ab-389b40b2ea48
+using PlutoUI
+
 # ╔═╡ efaf0218-42bd-46dd-9f93-de666df37100
 md"## Julia Lang
 
@@ -41,23 +53,20 @@ md"## Multiple Dispatch
 * However we can specialize if we want
 "
 
-# ╔═╡ 3b8c572c-3d2e-4f68-96f3-b4552ac2d20b
-# no type signatures needed
-function f(x, y)
-	return x + y
-end
-
 # ╔═╡ 6b5f335d-15af-43f2-afc4-1b51acc693cc
 # However, we can specialize if we want
 function f(x::Int, y::Int)
 	return 42
 end
 
-# ╔═╡ 6ea00fdb-7659-4bd5-83a1-09af4c6f31d7
-f(10, 12.1)
+# ╔═╡ 8021d1d9-773d-46d4-9804-6fbe7978f4df
+ϵ = 10
 
-# ╔═╡ 034676c5-8a30-488f-a685-d0d4c20d078b
-f(10, 11)
+# ╔═╡ 8f247848-6258-4538-9bea-df4897d5716a
+md"""
+x = $(@bind x Slider(1:10; default=8, show_value=true))
+z = $(@bind z Slider(1:10; default=8, show_value=true))
+"""
 
 # ╔═╡ 7183ba48-5785-41af-afc6-f80bc07916cf
 md"## Small for loop array example
@@ -66,10 +75,42 @@ Consider an array where we want to sum up all positive numbers
 "
 
 # ╔═╡ aa72b577-18f6-4871-b232-d17c2bb5c7fd
-Γ = randn((100_000_000));
+Γ = randn((100_000_000, ));
 
 # ╔═╡ 1e79336c-9f63-48ca-aa47-5c96bc7dfd9c
 result1 = sum(Γ[Γ .> 0.0])
+
+# ╔═╡ dec2cd2e-2263-4139-b461-1c4c5c49976f
+md"## Type Example"
+
+# ╔═╡ 35e81c4d-8673-4b2a-aa0f-457aaefcddb7
+abstract type Bit end
+
+# ╔═╡ 6c57ae37-12d0-43c7-9043-3e5dbb0b85e3
+struct One <: Bit end
+
+# ╔═╡ e779870d-966a-4ed7-9ab4-54e534518642
+struct Zero <: Bit end
+
+# ╔═╡ 214b7930-763b-4034-bf50-05a0c369c02d
+begin
+	import Base.+
+	+(::T, ::T) where {T<:Bit} = Zero()
+	+(::One, ::Zero) = One()
+	+(::Zero, ::One) = One()
+end
+
+# ╔═╡ 3b8c572c-3d2e-4f68-96f3-b4552ac2d20b
+# no type signatures needed
+function f(x, y)
+	return x + y
+end
+
+# ╔═╡ 034676c5-8a30-488f-a685-d0d4c20d078b
+f(ϵ, x)
+
+# ╔═╡ 6ea00fdb-7659-4bd5-83a1-09af4c6f31d7
+f(x, 12e0 + 1im)
 
 # ╔═╡ b71710ee-09fe-4568-9aa7-fc5eaa4b0cb3
 function sum_positive(Γ)
@@ -88,12 +129,21 @@ result2 = sum_positive(Γ)
 # ╔═╡ f9f7a2fe-c0e4-412d-bc88-22b2a8cf9f4c
 result1 ≈ result2
 
+# ╔═╡ b0c6f430-3ade-40ef-9468-9701391be788
+One() + Zero()
+
+# ╔═╡ e04b7ae2-3282-4093-a35e-1357d48cdff9
+Zero() + Zero()
+
 # ╔═╡ Cell order:
+# ╠═839c36b1-1318-4892-84ab-389b40b2ea48
 # ╠═efaf0218-42bd-46dd-9f93-de666df37100
 # ╠═d78a922c-efa2-4935-881a-b5dccaa09caa
 # ╠═3b8c572c-3d2e-4f68-96f3-b4552ac2d20b
 # ╠═6ea00fdb-7659-4bd5-83a1-09af4c6f31d7
 # ╠═6b5f335d-15af-43f2-afc4-1b51acc693cc
+# ╠═8021d1d9-773d-46d4-9804-6fbe7978f4df
+# ╟─8f247848-6258-4538-9bea-df4897d5716a
 # ╠═034676c5-8a30-488f-a685-d0d4c20d078b
 # ╠═7183ba48-5785-41af-afc6-f80bc07916cf
 # ╠═aa72b577-18f6-4871-b232-d17c2bb5c7fd
@@ -101,3 +151,10 @@ result1 ≈ result2
 # ╠═76f78b1c-b796-4ec5-b857-12635be06a0d
 # ╠═b71710ee-09fe-4568-9aa7-fc5eaa4b0cb3
 # ╠═f9f7a2fe-c0e4-412d-bc88-22b2a8cf9f4c
+# ╠═dec2cd2e-2263-4139-b461-1c4c5c49976f
+# ╠═35e81c4d-8673-4b2a-aa0f-457aaefcddb7
+# ╠═6c57ae37-12d0-43c7-9043-3e5dbb0b85e3
+# ╠═e779870d-966a-4ed7-9ab4-54e534518642
+# ╠═214b7930-763b-4034-bf50-05a0c369c02d
+# ╠═b0c6f430-3ade-40ef-9468-9701391be788
+# ╠═e04b7ae2-3282-4093-a35e-1357d48cdff9
