@@ -23,15 +23,16 @@ md"## Julia Lang
 * General purpose and high level language
 * Core paradigm is *Multiple Dispatch*
 * Performance comparable to C/C++/Fortran
-* *for loops* don't have a performance penalty
+* For example: *for loops* don't have a performance penalty
 
 ### Reason for Speed
 * JIT - Just in Time compilation
-* Because of the type system Julia can compile efficient code
+* type stable functions
+* because of the type system Julia can compile efficient code
 
 
 ### Helpfuls resources
-* However, certain differences to other languages
+* However, severalc differences to other languages
 * Consult [performance tips](https://docs.julialang.org/en/v1/manual/performance-tips/)
 * [Noteworthy differences to other language](https://docs.julialang.org/en/v1/manual/noteworthy-differences/)
 * Ecosystem for image processing for microscopy data is small
@@ -46,12 +47,27 @@ md"## Julia Lang
 * [TestImages.jl](https://github.com/JuliaImages/TestImages.jl)
 "
 
+# ╔═╡ ad907ec3-7f30-4508-9599-a734c18593af
+md"#### sqrt example which fails in Julia because of the types"
+
+# ╔═╡ f8d94633-d125-4da1-a446-bbf4e8fd43a9
+sqrt(-1)
+
+# ╔═╡ 8c83a90b-642a-4e9c-abe6-0e1ce0c819b5
+sqrt(1) |> typeof
+
 # ╔═╡ d78a922c-efa2-4935-881a-b5dccaa09caa
 md"## Multiple Dispatch
 
 * In general no type signatures are needed
 * However we can specialize if we want
 "
+
+# ╔═╡ 8f247848-6258-4538-9bea-df4897d5716a
+md"""
+x = $(@bind x Slider(1:10; default=8, show_value=true))
+z = $(@bind z Slider(1:10; default=8, show_value=true))
+"""
 
 # ╔═╡ 6b5f335d-15af-43f2-afc4-1b51acc693cc
 # However, we can specialize if we want
@@ -61,12 +77,6 @@ end
 
 # ╔═╡ 8021d1d9-773d-46d4-9804-6fbe7978f4df
 ϵ = 10
-
-# ╔═╡ 8f247848-6258-4538-9bea-df4897d5716a
-md"""
-x = $(@bind x Slider(1:10; default=8, show_value=true))
-z = $(@bind z Slider(1:10; default=8, show_value=true))
-"""
 
 # ╔═╡ 7183ba48-5785-41af-afc6-f80bc07916cf
 md"## Small for loop array example
@@ -95,7 +105,7 @@ struct Zero <: Bit end
 # ╔═╡ 214b7930-763b-4034-bf50-05a0c369c02d
 begin
 	import Base.+
-	+(::T, ::T) where {T<:Bit} = Zero()
+	+(::Bit, ::Bit) = Zero()
 	+(::One, ::Zero) = One()
 	+(::Zero, ::One) = One()
 end
@@ -106,11 +116,11 @@ function f(x, y)
 	return x + y
 end
 
-# ╔═╡ 034676c5-8a30-488f-a685-d0d4c20d078b
-f(ϵ, x)
-
 # ╔═╡ 6ea00fdb-7659-4bd5-83a1-09af4c6f31d7
-f(x, 12e0 + 1im)
+f(x, z * 1im)
+
+# ╔═╡ 034676c5-8a30-488f-a685-d0d4c20d078b
+f(ϵ, x + z)
 
 # ╔═╡ b71710ee-09fe-4568-9aa7-fc5eaa4b0cb3
 function sum_positive(Γ)
@@ -138,12 +148,15 @@ Zero() + Zero()
 # ╔═╡ Cell order:
 # ╠═839c36b1-1318-4892-84ab-389b40b2ea48
 # ╠═efaf0218-42bd-46dd-9f93-de666df37100
+# ╠═ad907ec3-7f30-4508-9599-a734c18593af
+# ╠═f8d94633-d125-4da1-a446-bbf4e8fd43a9
+# ╠═8c83a90b-642a-4e9c-abe6-0e1ce0c819b5
 # ╠═d78a922c-efa2-4935-881a-b5dccaa09caa
 # ╠═3b8c572c-3d2e-4f68-96f3-b4552ac2d20b
+# ╟─8f247848-6258-4538-9bea-df4897d5716a
 # ╠═6ea00fdb-7659-4bd5-83a1-09af4c6f31d7
 # ╠═6b5f335d-15af-43f2-afc4-1b51acc693cc
 # ╠═8021d1d9-773d-46d4-9804-6fbe7978f4df
-# ╟─8f247848-6258-4538-9bea-df4897d5716a
 # ╠═034676c5-8a30-488f-a685-d0d4c20d078b
 # ╠═7183ba48-5785-41af-afc6-f80bc07916cf
 # ╠═aa72b577-18f6-4871-b232-d17c2bb5c7fd

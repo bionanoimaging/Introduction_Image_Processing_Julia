@@ -42,7 +42,7 @@ conv
 measured = poisson(FourierTools.conv(img, psf), 300)
 
 # ╔═╡ eb362894-9ea4-4a0d-8723-7acd39abd567
-v(measured2)
+v(measured)
 
 # ╔═╡ 4464fa21-69d4-4447-ba27-7299d7e8d454
 md"## DeconvOptim.jl"

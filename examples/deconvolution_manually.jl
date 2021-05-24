@@ -5,13 +5,34 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ 943cd3a0-b9a7-11eb-0852-fb73c86a7ebe
-using CUDA, Zygote, Optim, Napari, TestImages, LinearAlgebra, FFTW, Noise, LineSearches, Tullio, Statistics, DeconvOptim, FourierTools
+using CUDA, Zygote, Optim, Napari, TestImages, LinearAlgebra, FFTW, Noise, LineSearches, Tullio, Statistics, DeconvOptim, FourierTools, Colors, ImageShow, Images
 
 # ╔═╡ 11c1d382-a7b0-4c84-b2fa-ee21ea2da201
 md"## Import Packages"
 
 # ╔═╡ 26439a7f-d22c-4b1e-a29c-5124c0a68094
 FFTW.set_num_threads(6)
+
+# ╔═╡ 0554827f-6a54-42d6-8a03-fd3a2d1112f5
+md"## How does CUDA work?"
+
+# ╔═╡ a14bacc8-a080-430b-a8fc-8084ce7a0e4d
+begin
+	x = rand(10, 10, 10)
+	x_c = CuArray(x)
+end;
+
+# ╔═╡ e3d6933a-3ef4-4067-bc6a-570b5f5b1bb0
+typeof(x)
+
+# ╔═╡ b5e85f9d-e389-456a-b415-6303cffe7bdb
+typeof(x_c)
+
+# ╔═╡ 178b4a21-dd8b-4858-9337-5cf062fe4b09
+fft(x);
+
+# ╔═╡ d7347964-eda2-4ae2-80f9-ea2eeca640d8
+fft(x_c);
 
 # ╔═╡ fd0311fb-ea86-4e07-b3f9-0038fb539cc8
 begin
@@ -25,12 +46,15 @@ begin
 	Optim.maxdiff(x::CUDA.CuArray{T,N},y::CUDA.CuArray{T,N}) where {T,N} = maximum(abs.(x-y));
 end
 
+# ╔═╡ 7fcfc7b7-74b9-436b-9de9-e4b13da0087b
+testimage("simple_3d_ball")
+
 # ╔═╡ 8e481367-6fd5-4f63-b4e8-e5f84a70acd5
 md"## Load example 3D image"
 
 # ╔═╡ 5a242207-d570-43c7-bfef-20dc02b5a9ea
 begin
-	img = Float32.(testimage("simple"))
+	img = Float32.(testimage("simple_3d_ball"))
 	img = abs.(resample(img, (128, 128, 128)))
 	psf = permutedims(ifftshift(Float32.(testimage("simple_3d_psf").parent)), (3, 1, 2))
 	psf = abs.(resample(psf, (128, 128, 128)))
@@ -53,30 +77,30 @@ md"## Create a forward deconvolution model
 
 $$Y = (S * \text{PSF}) + N$$
 
-Sample $S$,  point spread function $\text{PSF}$, Noise $N$ 
+measurement $Y$, sample $S$,  point spread function $\text{PSF}$, Noise $N$
 "
 
 # ╔═╡ d2dbe922-9dc1-4996-b753-62c8f7ff5a6b
-function create_forward(psf)
+begin
 	otf = rfft(psf)
-
-	function conv(a)
-		return irfft(rfft(a) .* otf, size(a, 1))
+	
+	function forward(img)
+		return irfft(rfft(img) .* otf, size(img, 1))
 	end
-
-
+	
+	
 	otf_cuda = CuArray(otf)
 	p = plan_rfft(CuArray(psf))
 	p_inv = inv(p)
-
-	function conv(a::CuArray)
-		return p_inv.scale .* (p_inv.p * ((p * a) .* otf_cuda))
+	
+	function forward(img::CuArray)
+		return p_inv.scale .* (p_inv.p * ((p * img) .* otf_cuda))
 	end
-	return conv
+	
+	
+	#return conv
+	
 end
-
-# ╔═╡ 337d95a6-2606-480f-a7e4-8fc472960f2c
-forward = create_forward(psf)
 
 # ╔═╡ cfc95c98-3f72-4b3a-86d6-6c73806330c6
 forward(img);
@@ -119,7 +143,7 @@ end
 begin
 	rec0 = mean(measurement) .* ones(Float32, size(measurement));
 	rec0_cuda = CuArray(rec0);
-end
+end;
 
 # ╔═╡ f198cd1d-1fb1-4e00-b135-a69b9c54872b
 begin
@@ -136,7 +160,7 @@ md"## Optimizer"
 @time res = Optim.optimize(f, g!, rec0, LBFGS(linesearch=LineSearches.BackTracking()), Optim.Options(iterations=40))
 
 # ╔═╡ f55b0aa2-4de9-43ab-9a30-3d1a7bc85984
-CUDA.@time res_cuda = Optim.optimize(f, g!, rec0_cuda, LBFGS(linesearch=LineSearches.BackTracking()), Optim.Options(iterations=400))
+CUDA.@time res_cuda = Optim.optimize(f, g!, rec0_cuda, LBFGS(linesearch=LineSearches.BackTracking()), Optim.Options(iterations=40))
 
 # ╔═╡ 214fa627-9dd0-45c1-b766-77cbc2494a7d
 begin
@@ -157,18 +181,24 @@ begin
 end
 
 # ╔═╡ Cell order:
-# ╠═11c1d382-a7b0-4c84-b2fa-ee21ea2da201
+# ╟─11c1d382-a7b0-4c84-b2fa-ee21ea2da201
 # ╠═943cd3a0-b9a7-11eb-0852-fb73c86a7ebe
 # ╠═26439a7f-d22c-4b1e-a29c-5124c0a68094
-# ╠═fd0311fb-ea86-4e07-b3f9-0038fb539cc8
-# ╠═8e481367-6fd5-4f63-b4e8-e5f84a70acd5
+# ╠═0554827f-6a54-42d6-8a03-fd3a2d1112f5
+# ╠═a14bacc8-a080-430b-a8fc-8084ce7a0e4d
+# ╠═e3d6933a-3ef4-4067-bc6a-570b5f5b1bb0
+# ╠═b5e85f9d-e389-456a-b415-6303cffe7bdb
+# ╠═178b4a21-dd8b-4858-9337-5cf062fe4b09
+# ╠═d7347964-eda2-4ae2-80f9-ea2eeca640d8
+# ╟─fd0311fb-ea86-4e07-b3f9-0038fb539cc8
+# ╠═7fcfc7b7-74b9-436b-9de9-e4b13da0087b
+# ╟─8e481367-6fd5-4f63-b4e8-e5f84a70acd5
 # ╠═5a242207-d570-43c7-bfef-20dc02b5a9ea
 # ╠═b20ca70f-a979-4a53-ba9c-bf3b91dc5261
-# ╠═c979f867-0830-4e0b-aaca-3ccdc3ac2bc9
+# ╟─c979f867-0830-4e0b-aaca-3ccdc3ac2bc9
 # ╠═eeb36b76-e9bc-4734-95d7-b1296f4050b1
-# ╠═0f29fcc1-90f5-4446-b563-7765de99c177
+# ╟─0f29fcc1-90f5-4446-b563-7765de99c177
 # ╠═d2dbe922-9dc1-4996-b753-62c8f7ff5a6b
-# ╠═337d95a6-2606-480f-a7e4-8fc472960f2c
 # ╠═cfc95c98-3f72-4b3a-86d6-6c73806330c6
 # ╠═877a5075-0dac-456b-9539-3712abd884e0
 # ╠═67e0992e-c504-4631-a510-3adb564a434b
