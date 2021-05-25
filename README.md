@@ -22,8 +22,6 @@ the examples provided here. To activate the environment and to start Pluto do:
 (@v1.6) pkg> activate .
   Activating environment at `/home/myuser/Downloads/Introduction_Image_Processing_Julia/Project.toml`
 
-julia> ENV["JULIA_COPY_STACKS"]=1     # because View5D.jl uses JavaCall which needs that on non-Windows
-
 julia> using Pluto
 
 julia> Pluto.run()
