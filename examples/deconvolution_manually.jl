@@ -130,12 +130,12 @@ md"## Regularizer"
 reg(rec) = @tullio r = sqrt(1f-8 + abs2(rec[i, j, k] - rec[i + 1, j, k]) + abs2(rec[i, j, k] - rec[i, j + 1, k]) + abs2(rec[i, j, k] - rec[i, j, k + 1]))
 
 # ╔═╡ fdb9ea82-2965-4993-9872-919bc2ed53e8
-reg_cuda(rec) = DeconvOptim.TV_cuda(num_dims=3)(rec)
+reg(rec::CuArray) = DeconvOptim.TV_cuda(num_dims=3)(rec)
 
 # ╔═╡ dcc35fc0-b894-42aa-b67e-61bd66f1d7a2
 begin
 	f(rec) = loss(forward(rec.^2), measurement) + 0.001 * reg(rec.^2)
-	f(rec::CuArray) = loss(forward(rec.^2), measurement_cuda) + 0.001 * reg_cuda(rec.^2)
+	f(rec::CuArray) = loss(forward(rec.^2), measurement_cuda) + 0.001 * reg(rec.^2)
 	g!(G, rec) = G .= gradient(f, rec)[1]
 end
 
