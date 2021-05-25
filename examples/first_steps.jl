@@ -19,16 +19,17 @@ using PlutoUI
 # ╔═╡ efaf0218-42bd-46dd-9f93-de666df37100
 md"## Julia Lang
 
-* A relatively new programming language (≈ 10 years)
+* A relatively new dynamic programming language (≈ 3 years since 1.0)
 * General purpose and high level language
 * Core paradigm is *Multiple Dispatch*
 * Performance comparable to C/C++/Fortran
 * For example: *for loops* don't have a performance penalty
 
-### Reason for Speed
+### Reasons for Speed
 * JIT - Just in Time compilation
 * type stable functions
 * because of the type system Julia can compile efficient code
+* example in Python: $ \sqrt{-1} $
 
 
 ### Helpfuls resources
@@ -78,6 +79,18 @@ end
 # ╔═╡ 8021d1d9-773d-46d4-9804-6fbe7978f4df
 ϵ = 10
 
+# ╔═╡ fc08b77e-565a-4edc-a2dd-0b7dc7acd155
+md"## Arrays"
+
+# ╔═╡ 26f41519-9f11-46e6-aa27-abd1142b00fb
+arr = ones(Float32, (10, 10));
+
+# ╔═╡ 708f34f7-1308-4946-9ace-998476606f9c
+arr * arr # matrix multiplication
+
+# ╔═╡ c24d72a7-e4f5-427e-a55a-6ca6b7ec9b9e
+arr .* arr # point wise
+
 # ╔═╡ 7183ba48-5785-41af-afc6-f80bc07916cf
 md"## Small for loop array example
 
@@ -88,7 +101,7 @@ Consider an array where we want to sum up all positive numbers
 Γ = randn((100_000_000, ));
 
 # ╔═╡ 1e79336c-9f63-48ca-aa47-5c96bc7dfd9c
-result1 = sum(Γ[Γ .> 0.0])
+result1 = sum(Γ[ Γ .> 0.0])
 
 # ╔═╡ dec2cd2e-2263-4139-b461-1c4c5c49976f
 md"## Type Example"
@@ -158,6 +171,10 @@ Zero() + Zero()
 # ╠═6b5f335d-15af-43f2-afc4-1b51acc693cc
 # ╠═8021d1d9-773d-46d4-9804-6fbe7978f4df
 # ╠═034676c5-8a30-488f-a685-d0d4c20d078b
+# ╠═fc08b77e-565a-4edc-a2dd-0b7dc7acd155
+# ╠═26f41519-9f11-46e6-aa27-abd1142b00fb
+# ╠═708f34f7-1308-4946-9ace-998476606f9c
+# ╠═c24d72a7-e4f5-427e-a55a-6ca6b7ec9b9e
 # ╠═7183ba48-5785-41af-afc6-f80bc07916cf
 # ╠═aa72b577-18f6-4871-b232-d17c2bb5c7fd
 # ╠═1e79336c-9f63-48ca-aa47-5c96bc7dfd9c
