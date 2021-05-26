@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.5
+# v0.14.6
 
 using Markdown
 using InteractiveUtils
@@ -14,7 +14,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ 839c36b1-1318-4892-84ab-389b40b2ea48
-using PlutoUI
+using PlutoUI, Plots
 
 # ╔═╡ efaf0218-42bd-46dd-9f93-de666df37100
 md"## Julia Lang
@@ -29,7 +29,6 @@ md"## Julia Lang
 * JIT - Just in Time compilation
 * type stable functions
 * because of the type system Julia can compile efficient code
-* example in Python: $ \sqrt{-1} $
 
 
 ### Helpfuls resources
@@ -66,8 +65,8 @@ md"## Multiple Dispatch
 
 # ╔═╡ 8f247848-6258-4538-9bea-df4897d5716a
 md"""
-x = $(@bind x Slider(1:10; default=8, show_value=true))
-z = $(@bind z Slider(1:10; default=8, show_value=true))
+x = $(@bind x Slider(0:0.1:10; default=8, show_value=true))
+z = $(@bind z Slider(1:0.01:10; default=8, show_value=true))
 """
 
 # ╔═╡ 6b5f335d-15af-43f2-afc4-1b51acc693cc
@@ -132,6 +131,12 @@ end
 # ╔═╡ 6ea00fdb-7659-4bd5-83a1-09af4c6f31d7
 f(x, z * 1im)
 
+# ╔═╡ 853f3cd3-20c6-4479-8846-0c6b7a34e410
+begin
+	r = 0:0.005:10
+	plot(r, sin.(x .* r .+ z))
+end
+
 # ╔═╡ 034676c5-8a30-488f-a685-d0d4c20d078b
 f(ϵ, x + z)
 
@@ -160,7 +165,7 @@ Zero() + Zero()
 
 # ╔═╡ Cell order:
 # ╠═839c36b1-1318-4892-84ab-389b40b2ea48
-# ╠═efaf0218-42bd-46dd-9f93-de666df37100
+# ╟─efaf0218-42bd-46dd-9f93-de666df37100
 # ╠═ad907ec3-7f30-4508-9599-a734c18593af
 # ╠═f8d94633-d125-4da1-a446-bbf4e8fd43a9
 # ╠═8c83a90b-642a-4e9c-abe6-0e1ce0c819b5
@@ -171,6 +176,7 @@ Zero() + Zero()
 # ╠═6b5f335d-15af-43f2-afc4-1b51acc693cc
 # ╠═8021d1d9-773d-46d4-9804-6fbe7978f4df
 # ╠═034676c5-8a30-488f-a685-d0d4c20d078b
+# ╠═853f3cd3-20c6-4479-8846-0c6b7a34e410
 # ╠═fc08b77e-565a-4edc-a2dd-0b7dc7acd155
 # ╠═26f41519-9f11-46e6-aa27-abd1142b00fb
 # ╠═708f34f7-1308-4946-9ace-998476606f9c

@@ -29,3 +29,7 @@ julia> ENV["JULIA_COPY_STACKS"]=1  #only for Linux
 julia> Pluto.run()
 ```
 Within Pluto you can then start the notebooks. Please be patient, the loading time of packages in Julia might take a while the first time.
+
+
+## Image
+For some notebooks you need to download this [file](https://samples.fiji.sc/150707_WTstack.lsm).
