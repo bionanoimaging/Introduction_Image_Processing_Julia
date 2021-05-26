@@ -993,9 +993,11 @@ version = "1.2.0"
 
 [[View5D]]
 deps = ["AxisArrays", "Colors", "ImageCore", "JavaCall", "LazyArtifacts", "Unitful"]
-git-tree-sha1 = "22f4da5270ad31d49c34ca3caeec1815ae869ad4"
+git-tree-sha1 = "3de400b2f2b7f3174aa77b5f20bc24da3642922d"
+repo-rev = "master"
+repo-url = "https://github.com/RainerHeintzmann/View5D.jl"
 uuid = "90d841e0-6953-4e90-9f3a-43681da8e949"
-version = "0.3.0"
+version = "0.3.2"
 
 [[WinReg]]
 deps = ["Test"]
