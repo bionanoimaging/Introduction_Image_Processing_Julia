@@ -8,7 +8,7 @@ using InteractiveUtils
 begin
 	using Revise
 	using Pkg
-	Pkg.activate(".")
+	Pkg.activate("../.")
 end
 
 # ╔═╡ b88ba8d6-33c8-4d5b-a673-7030fc768596
