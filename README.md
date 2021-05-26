@@ -24,6 +24,8 @@ the examples provided here. To activate the environment and to start Pluto do:
 
 julia> using Pluto
 
+julia> ENV["JULIA_COPY_STACKS"]=1  #only for Linux
+
 julia> Pluto.run()
 ```
 Within Pluto you can then start the notebooks. Please be patient, the loading time of packages in Julia might take a while the first time.
